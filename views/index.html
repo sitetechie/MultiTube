@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>${title}</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans">
+  	<link rel="stylesheet" type="text/css" href="/stylesheets/font-awesome.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+
+// parse youtube url
+function parseURL(url) {
+    if (url && url.length == 11) {
+        return url;
+    } else if(url) {
+        var match = url.match(regExp);
+        if (match && match[2].length == 11) {
+            return match[2];
+        }
+    }
+}
+
+$(document).ready(function(){
+
+    $("form").submit(function(e){
+        var video = parseURL($("input:first").val());
+        if(!video) {
+            alert('Please enter a valid YouTube video ID or URL.')
+            return false;
+        }            
+    }); 
+
+    $('.icon-play-circle').click(function() {
+        $("form").submit();
+    });
+});
+</script>
+</head>
+<body>
+    <div id="wrapper">
+	
+    	<h1>${title}</h1>
+        <div id="video">
+    	   <form method="POST" action="/create">
+                <div class="url_container">
+                    <label>YouTube URL or Video ID:</label><br>
+                    <input type="text" name="video" _placeholder="YouTube URL or Video ID..." />
+                    <i class="icon-play-circle"></i>
+                </div> 		
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>
